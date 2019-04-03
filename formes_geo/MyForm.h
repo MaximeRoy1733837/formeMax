@@ -278,7 +278,19 @@ private: System::Void btn_CreerFigure(System::Object^  sender, System::EventArgs
 		 {
 			 Graphics^ objetGraphique = CreateGraphics();
 			 Pen^ crayon;
-			crayon = gcnew Pen(Color::Black);		
+			 if (figureCourante->EstSelectionne() == true)
+			 {
+				 crayon = gcnew Pen(Color::Red);
+				 textX->Text = (figureCourante->getX().ToString());
+				 textY->Text = (figureCourante->getY().ToString());
+				 textCote->Text = (figureCourante->getCote().ToString());
+				 textRayon->Text = (figureCourante->getRayon().ToString());
+			 }
+			 else
+			 {
+				 crayon = gcnew Pen(Color::Black);
+			 }
+
 			//donnez les bonnes valeurs à ces variables
 			//vous devez utiliser les valeurs qui se trouvent dans figureCourante
 			int x = figureCourante->getX();
@@ -331,8 +343,8 @@ private: System::Void MyForm_MouseClick(System::Object^  sender, System::Windows
 			 figureCourante = lesFigures.ObtenirFigure(cptFigure);
 			 while (figureCourante != NULL)
 			 {
-
-
+				 figureCourante->Deselectionner();
+				 figureCourante->Selectionner(e->X, e->Y);
 				 cptFigure++;
 				 figureCourante = lesFigures.ObtenirFigure(cptFigure);
 			 }
@@ -345,8 +357,13 @@ private: System::Void btnModifie_Click(System::Object^  sender, System::EventArg
 			 figureCourante = lesFigures.ObtenirFigure(cptFigure);
 			 while (figureCourante != NULL)
 			 {
-
-
+				 if (figureCourante->EstSelectionne() == true)
+				 {
+					figureCourante->setX(Convert::ToSingle(textX->Text));
+					figureCourante->setY(Convert::ToSingle(textY->Text));
+					figureCourante->setCote(Convert::ToSingle(textCote->Text));
+					figureCourante->setRayon(Convert::ToSingle(textRayon->Text));
+				 }
 				 cptFigure++;
 				 figureCourante = lesFigures.ObtenirFigure(cptFigure);
 			 }
