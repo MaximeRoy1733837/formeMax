@@ -24,6 +24,15 @@ public:
 	void setY(int);
 	bool EstSelectionne();	
 	void Deselectionner();
+	//cercle
+	virtual void setRayon(int);
+	virtual int getRayon() const;
+	//carre
+	virtual void setCote(int);
+	virtual int getCote() const;
+	//2
+	virtual float CalculerPerimetre() const;
+	virtual float CalculerAire() const;
 };
 
 #endif

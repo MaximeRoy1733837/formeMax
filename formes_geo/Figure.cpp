@@ -56,4 +56,28 @@ void Figure::Deselectionner()
 {
 	estSelectionne = false;
 }
+void Figure::setRayon(int inRayon)
+{
+}
+
+int Figure::getRayon() const
+{
+	return 0;
+}
+void Figure::setCote(int inCote)
+{
+}
+
+int Figure::getCote() const
+{
+	return 0;
+}
+float Figure::CalculerPerimetre() const
+{
+	return 0;
+}
+float Figure::CalculerAire() const
+{
+	return 0;
+}
 

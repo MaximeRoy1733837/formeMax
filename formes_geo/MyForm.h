@@ -157,10 +157,12 @@ namespace formes_geo {
 			// comboFigure
 			// 
 			this->comboFigure->FormattingEnabled = true;
+			//this->comboFigure->Items->AddRange(gcnew cli::array< System::Object^  >(2) { L"Carré", L"Cercle" });
 			this->comboFigure->Location = System::Drawing::Point(12, 12);
 			this->comboFigure->Name = L"comboFigure";
 			this->comboFigure->Size = System::Drawing::Size(99, 21);
 			this->comboFigure->TabIndex = 24;
+			this->comboFigure->SelectedIndexChanged += gcnew System::EventHandler(this, &MyForm::comboFigure_SelectedIndexChanged);
 			// 
 			// btnCreerFigure
 			// 
@@ -246,12 +248,22 @@ private: System::Void btn_CreerFigure(System::Object^  sender, System::EventArgs
 
 				if (comboFigure->SelectedIndex != 0)
 				{					
-
+						if (comboFigure->SelectedIndex == 1)
+						{
+							figureCourante = new Carre();
+						}
+						if (comboFigure->SelectedIndex == 2)
+						{
+							figureCourante = new Cercle();
+						} 
 					if ( figureCourante != NULL)
 					{
-
-
+						figureCourante->setX(Convert::ToSingle(textX->Text));
+						figureCourante->setY(Convert::ToSingle(textY->Text));
+						figureCourante->setCote(Convert::ToSingle(textCote->Text));
+						figureCourante->setRayon(Convert::ToSingle(textRayon->Text));
 						DessinerFigure();
+						lesFigures.AjouterFigure(figureCourante);
 					}
 					comboFigure->SelectedIndex = 0;
 					InitialiserTextBox();
@@ -269,12 +281,12 @@ private: System::Void btn_CreerFigure(System::Object^  sender, System::EventArgs
 			crayon = gcnew Pen(Color::Black);		
 			//donnez les bonnes valeurs à ces variables
 			//vous devez utiliser les valeurs qui se trouvent dans figureCourante
-			int x = 0;
-			int y = 0;
-			int rayon = 0;
-			int cote = 0;
+			int x = figureCourante->getX();
+			int y = figureCourante->getY();
+			int rayon = figureCourante->getRayon();
+			int cote = figureCourante->getCote();
 
-			if (comboFigure->SelectedIndex == 1)
+			if (cote != 0)
 			 {
 				 objetGraphique->DrawRectangle(crayon, x, y, cote, cote);
 			 }
@@ -289,11 +301,12 @@ private: System::Void btn_CreerFigure(System::Object^  sender, System::EventArgs
 private: System::Void btnPerimetre_Click(System::Object^  sender, System::EventArgs^  e) {
 			 int cptFigure=0;
 			 listBoxFigures->Items->Clear();
-			 listBoxFigures->Items->Add("Périmètre des figures:");
+			 listBoxFigures->Items->Add("Périmètre des figures: ");
 			 figureCourante = lesFigures.ObtenirFigure(cptFigure);
+
 			 while (figureCourante != nullptr)
 			 {
-				 
+				 listBoxFigures->Items->Add(figureCourante->CalculerPerimetre().ToString());
 				 cptFigure++;
 				 figureCourante = lesFigures.ObtenirFigure(cptFigure);
 			 }
@@ -343,5 +356,7 @@ private: System::Void btnModifie_Click(System::Object^  sender, System::EventArg
 			 DessinerTout();
 		 }
 
+private: System::Void comboFigure_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e) {
+}
 };
 }
